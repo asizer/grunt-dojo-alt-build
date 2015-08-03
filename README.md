@@ -1,5 +1,8 @@
 # grunt-als-build
 
+_Nota bene: This is not actually a registered npm package yet. You will have to download it and use `npm link` (https://docs.npmjs.com/cli/link)_
+
+
 Concatenate and minify all javascript files and html templates into a single, dojo-readable file
 
 ## Getting Started
@@ -20,7 +23,7 @@ grunt.loadNpmTasks('grunt-als-build');
 or by using the `load-grunt-tasks` plugin:
 
 ```js
-  require('load-grunt-tasks')(grunt);
+require('load-grunt-tasks')(grunt);
 ```
 
 
@@ -57,9 +60,9 @@ An object listing the local packages in dojoConfig that should be built.
 #### files 
 Type: file list
 
-A list of js modules and html templates to be concatenated and minified.
+A list of js modules and html templates to be concatenated and minified. (note: this is a sibling to, not within, the `options` object)
 
-See [Grunt documentation](http://gruntjs.com/configuring-tasks#files) for different structure options. (note: this is not within the `options` object)
+See [Grunt documentation](http://gruntjs.com/configuring-tasks#files) for different structure options.
 
 ### Usage Examples
 
@@ -111,8 +114,8 @@ and a require statement to the module that kicks off the application.
 
 ```html
 <script src="js/app.min.js"></script>
-<!-- Application Entry Point -->
 <script>
+  <!-- Application Entry Point -->
   require(['app/controller']);
 </script>
 ```
