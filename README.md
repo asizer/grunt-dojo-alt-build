@@ -1,6 +1,6 @@
 # grunt-als-build
 
-> Concatenate and minify all javascript files and html templates into a single, dojo-readable file
+Concatenate and minify all javascript files and html templates into a single, dojo-readable file
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -17,6 +17,13 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-als-build');
 ```
 
+or by using the `load-grunt-tasks` plugin:
+
+```js
+  require('load-grunt-tasks')(grunt);
+```
+
+
 ## The "als_build" task
 
 ### Overview
@@ -25,65 +32,93 @@ In your project's Gruntfile, add a section named `als_build` to the data object 
 ```js
 grunt.initConfig({
   als_build: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+    target_name: {
+  	  options: {
+  	    pkgs: {
+  	      // list the local packages in dojoConfig that should be built.
+  	    }
+  	  },
+  	  files: {
+  	    // list the files to include in the build here.
+  	    // see grunt documentation for different structure options
+  	  }
+    }
+  }
 });
 ```
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.pkgs
+Type: `Object`
 
-A string value that is used to do something with whatever.
+An object listing the local packages in dojoConfig that should be built. 
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+#### files 
+Type: file list
 
-A string value that is used to do something else with whatever else.
+A list of js modules and html templates to be concatenated and minified.
+
+See [Grunt documentation](http://gruntjs.com/configuring-tasks#files) for different structure options. (note: this is not within the `options` object)
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+For a project with dojoConfig:
 
 ```js
-grunt.initConfig({
-  als_build: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
+var dojoConfig = {
+  parseOnLoad: true,
+  packages: [{
+    name: 'app',
+    location: locationPath + 'js/app'
+  }, {
+    name: 'components',
+    location: locationPath + 'js/components'
+  }, {
+    name: 'config',
+    location: locationPath + 'js/config'
+  }]
+};
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+an `app` target for the `als_build` task looks like this (assuming a `config` module that should be excluded from the build process).
 
 ```js
-grunt.initConfig({
-  als_build: {
+als_build: {
+  app: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      pkgs: {
+        // list the local packages in dojoConfig that should be built.
+        // (don't include config package here)
+        'app': 'js/app',
+        'components': 'js/components'
+      }
     },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
+      'release/js/app.min.js': [
+        // all js and html files from the js folder except config
+        'js/**/*.js',
+        'js/**/*.html',
+        '!js/config/*'
+      ]
+    }
+  }
+}
+```
+
+and `release/index.html` would include a script tag to import the built modules,
+and a require statement to the module that kicks off the application.
+
+```html
+<script src="js/app.min.js"></script>
+<!-- Application Entry Point -->
+<script>
+  require(['app/controller']);
+</script>
 ```
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+todo
 
 ## Release History
-_(Nothing yet)_
+todo
