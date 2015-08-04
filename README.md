@@ -1,8 +1,5 @@
 # grunt-dojo-alt-build
 
-_Nota bene: This is not actually a registered npm package yet. You will have to download it and use `npm link` (https://docs.npmjs.com/cli/link)_
-
-
 Concatenate and minify all javascript files and html templates into a single, dojo-readable file
 
 ## Getting Started
