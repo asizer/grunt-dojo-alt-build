@@ -1,7 +1,7 @@
 {
   "name": "grunt-dojo-alt-build",
   "description": "Concatenate and minify all javascript files and html templates into a single, dojo-readable file",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/asizer/grunt-dojo-alt-build",
   "author": {
     "name": "Alison Sizer",
