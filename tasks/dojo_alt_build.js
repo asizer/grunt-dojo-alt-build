@@ -21,11 +21,6 @@ module.exports = function(grunt) {
     require('grunt-contrib-concat/tasks/concat.js')(grunt);
     grunt.renameTask('concat', 'dojo_alt_build_concat');
 
-    var tally = {
-      js: 0,
-      html: 0
-    };
-
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       banner: 'require({\ncache: {\n',
@@ -47,15 +42,13 @@ module.exports = function(grunt) {
         }
         // process file
         if (filepath.indexOf('.js', filepath.length - 3) >= 0) {
-          tally.js++;
           // add file name, then file text as contents of function() {}
           returnStr += '\'' + filepath.replace('.js', '') + '\': ' +
             'function() {\n' + src + '\n}';
         } else if (filepath.indexOf('.html', filepath.length - 5) >= 0) {
-          tally.html++;
           // check for and warn about single quotes.
           if (src.indexOf('\'') >= 0) {
-            console.warn('The template file ' + chalk.red(filepath) + ' contains single quotes. This might break the build.');
+            console.warn('The template file ' + chalk.cyan(filepath) + ' contains single quotes. ' + chalk.red('This might break the build.'));
           }
           // add file name as url, then html template, leaving a single space for newlines and tabs.
           // also try escaping single quote.
@@ -80,17 +73,14 @@ module.exports = function(grunt) {
 
     grunt.task.run('dojo_alt_build_concat');
 
-    console.log('tally?', tally);
-
     // minify files
     require('grunt-contrib-uglify/tasks/uglify.js')(grunt);
     grunt.renameTask('uglify', 'dojo_alt_build_uglify');
 
     var uglifyFiles = _.map(this.files, function(x) {
-      var lastDot = x.dest.lastIndexOf('.');
       return {
         src: x.dest,
-        dest: x.dest.slice(0, lastDot) + '.min' + x.dest.slice(lastDot)
+        dest: x.dest
       };
     });
 
@@ -101,7 +91,6 @@ module.exports = function(grunt) {
     });
 
     grunt.task.run('dojo_alt_build_uglify');
-
 
   });
 
