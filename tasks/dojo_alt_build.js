@@ -1,12 +1,13 @@
 /*
- * grunt-als-build
- * https://github.com/asizer/grunt-als-build
+ * grunt-dojo-alt-build
+ * https://github.com/asizer/grunt-dojo-alt-build
  *
  * Copyright (c) 2015 Alison Sizer
  * Licensed under the MIT license.
  */
 
 var _ = require('lodash');
+var chalk = require('chalk');
 
 module.exports = function(grunt) {
   'use strict';
@@ -14,11 +15,11 @@ module.exports = function(grunt) {
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerMultiTask('als_build', 'Concatenate and minify all javascript files and html templates into a single, dojo-readable file', function() {
+  grunt.registerMultiTask('dojo_alt_build', 'Concatenate and minify all javascript files and html templates into a single, dojo-readable file', function() {
 
     // this plugin is just an extension of concat.
     require('grunt-contrib-concat/tasks/concat.js')(grunt);
-    grunt.renameTask('concat', 'als_build_concat');
+    grunt.renameTask('concat', 'dojo_alt_build_concat');
 
     var tally = {
       js: 0,
@@ -54,7 +55,7 @@ module.exports = function(grunt) {
           tally.html++;
           // check for and warn about single quotes.
           if (src.indexOf('\'') >= 0) {
-            console.warn('The template file ' + filepath + ' contains single quotes. This might break the build.');
+            console.warn('The template file ' + chalk.red(filepath) + ' contains single quotes. This might break the build.');
           }
           // add file name as url, then html template, leaving a single space for newlines and tabs.
           // also try escaping single quote.
@@ -64,7 +65,7 @@ module.exports = function(grunt) {
           console.error('uh oh! ' + filepath + ' fell through');
           return;
         }
-        return returnStr;        
+        return returnStr;
       }
     });
 
@@ -75,30 +76,31 @@ module.exports = function(grunt) {
       }
     };
 
-    grunt.config.set('als_build_concat', config);
+    grunt.config.set('dojo_alt_build_concat', config);
 
-    grunt.task.run('als_build_concat');
+    grunt.task.run('dojo_alt_build_concat');
 
     console.log('tally?', tally);
 
     // minify files
     require('grunt-contrib-uglify/tasks/uglify.js')(grunt);
-    grunt.renameTask('uglify', 'als_build_uglify');
+    grunt.renameTask('uglify', 'dojo_alt_build_uglify');
 
     var uglifyFiles = _.map(this.files, function(x) {
+      var lastDot = x.dest.lastIndexOf('.');
       return {
         src: x.dest,
-        dest: x.dest 
+        dest: x.dest.slice(0, lastDot) + '.min' + x.dest.slice(lastDot)
       };
     });
 
-    grunt.config.set('als_build_uglify', {
+    grunt.config.set('dojo_alt_build_uglify', {
       main: {
         files: uglifyFiles
       }
     });
 
-    grunt.task.run('als_build_uglify');
+    grunt.task.run('dojo_alt_build_uglify');
 
 
   });

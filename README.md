@@ -1,4 +1,4 @@
-# grunt-als-build
+# grunt-dojo-alt-build
 
 _Nota bene: This is not actually a registered npm package yet. You will have to download it and use `npm link` (https://docs.npmjs.com/cli/link)_
 
@@ -11,13 +11,13 @@ This plugin requires Grunt `~0.4.5`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-als-build --save-dev
+npm install grunt-dojo-alt-build --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-als-build');
+grunt.loadNpmTasks('grunt-dojo-alt-build');
 ```
 
 or by using the `load-grunt-tasks` plugin:
@@ -27,14 +27,14 @@ require('load-grunt-tasks')(grunt);
 ```
 
 
-## The "als_build" task
+## The "dojo_alt_build" task
 
 ### Overview
-In your project's Gruntfile, add a section named `als_build` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `dojo_alt_build` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  als_build: {
+  dojo_alt_build: {
     target_name: {
   	  options: {
   	    pkgs: {
@@ -84,10 +84,10 @@ var dojoConfig = {
 };
 ```
 
-an `app` target for the `als_build` task looks like this (assuming a `config` module that should be excluded from the build process).
+an `app` target for the `dojo_alt_build` task looks like this (assuming a `config` module that should be excluded from the build process).
 
 ```js
-als_build: {
+dojo_alt_build: {
   app: {
     options: {
       pkgs: {
