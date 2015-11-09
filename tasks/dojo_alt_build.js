@@ -28,6 +28,9 @@ module.exports = function(grunt) {
       separator: ',' + grunt.util.linefeed,
       minify: true,
       process: function(src, filepath) {
+        if (options.cwd && filepath.indexOf(options.cwd) === 0) {
+          filepath = filepath.slice(options.cwd.length);
+        }
         var returnStr = '\n// Source: ' + filepath + '\n';
 
         // replace path name with package name.
@@ -35,7 +38,11 @@ module.exports = function(grunt) {
         for (var key in pkgs) {
           if (pkgs.hasOwnProperty(key)) {
             if (filepath.indexOf(pkgs[key]) === 0) {
-              filepath = key + filepath.replace(pkgs[key], '');
+              var starterStr = key;
+              if (options.cwd) {
+                starterStr += '/';
+              }
+              filepath = starterStr + filepath.replace(pkgs[key], '');
               break;
             }
           }
