@@ -91,9 +91,11 @@ module.exports = function(grunt) {
       };
     });
 
+    var uglifyoptions = this.options().uglify;
     grunt.config.set('dojo_alt_build_uglify', {
       main: {
-        files: uglifyFiles
+        files: uglifyFiles,
+        options: uglifyoptions
       }
     });
 
